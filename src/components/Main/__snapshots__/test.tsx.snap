@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Main>React avançado</Main> should render a header 1`] = `
-<h1>
-  React Avançado
-</h1>
-`;
