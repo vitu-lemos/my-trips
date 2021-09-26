@@ -1,3 +1,6 @@
+import { InfoCircle } from '@styled-icons/bootstrap/InfoCircle'
+
+import LinkWrapper from 'components/LinkWrapper'
 import Map from 'components/Map'
 
 const places = [
@@ -22,6 +25,9 @@ const places = [
 ]
 const HomeTemplate = () => (
   <>
+    <LinkWrapper href="/about">
+      <InfoCircle size={32} />
+    </LinkWrapper>
     <Map places={places} />
   </>
 )
