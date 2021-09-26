@@ -20,6 +20,11 @@ const Map = ({ places }: Props) => (
     zoom={3}
     scrollWheelZoom={true}
     style={{ height: '100%', width: '100%' }}
+    minZoom={3}
+    maxBounds={[
+      [-180, 180],
+      [180, -180]
+    ]}
   >
     <TileLayer
       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
