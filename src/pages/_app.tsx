@@ -1,5 +1,8 @@
-import { AppProps } from 'next/app'
 import Head from 'next/head'
+import { AppProps } from 'next/app'
+import { ApolloProvider } from '@apollo/client'
+
+import apolloClient from 'api/apollo/client'
 
 import GlobalStyles from 'styles/global'
 
@@ -24,7 +27,9 @@ function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyles />
-      <Component {...pageProps} />
+      <ApolloProvider client={apolloClient}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   )
 }
