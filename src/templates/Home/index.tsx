@@ -15,7 +15,7 @@ const places = [
   },
   {
     id: '2',
-    name: 'Penísula de Maraú',
+    name: 'Península de Maraú',
     slug: 'marau',
     location: {
       latitude: -14.1154,
@@ -25,7 +25,7 @@ const places = [
 ]
 const HomeTemplate = () => (
   <>
-    <LinkWrapper href="/about">
+    <LinkWrapper href="about">
       <InfoOutline size={32} />
     </LinkWrapper>
     <Map places={places} />

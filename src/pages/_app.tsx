@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
 
-import apolloClient from 'api/apollo/client'
+import apolloClient from 'graphql/apollo/client'
 
 import GlobalStyles from 'styles/global'
 

@@ -3,12 +3,15 @@ import * as S from './styles'
 
 interface Props {
   href: string
+  as?: string
   children: React.ReactNode
 }
 
-const LinkWrapper = ({ href, children }: Props) => (
+const LinkWrapper = ({ href, as, children }: Props) => (
   <S.Wrapper>
-    <Link href={href}>{children}</Link>
+    <Link as={as} href={href}>
+      {children}
+    </Link>
   </S.Wrapper>
 )
 
