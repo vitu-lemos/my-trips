@@ -1,0 +1,13 @@
+overwrite: true
+schema: "https://api-ca-central-1.graphcms.com/v2/cku3lxan66k0p01yudcjk2p9v/master"
+documents: "src/graphql/**"
+generates:
+  src/graphql/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - add: 
+          content: '/* eslint-disable */'
+    config:
+      withHooks: true

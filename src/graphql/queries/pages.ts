@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const GET_GENERIC_PAGES_SLUG = gql`
-  query Query($first: Int) {
+  query GetGenericPages($first: Int) {
     genericPages(first: $first) {
       slug
     }

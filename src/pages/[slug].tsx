@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 
 import apolloClient from 'graphql/apollo/client'
 import {
@@ -6,8 +7,12 @@ import {
   GET_GENERIC_PAGE_BY_SLUG
 } from 'graphql/queries/pages'
 
+import {
+  GetGenericPageBySlugQuery,
+  GetGenericPagesQuery
+} from 'graphql/generated/graphql'
+
 import GenericTemplate, { GenericPageProps } from 'templates/Generic'
-import { GetStaticPaths, GetStaticProps } from 'next'
 
 const GenericPage = ({ title, description }: GenericPageProps) => {
   const router = useRouter()
@@ -18,19 +23,16 @@ const GenericPage = ({ title, description }: GenericPageProps) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  interface Path {
-    params: { [key: string]: string }
-  }
-  let paths: Path[] = []
+  let paths: GetStaticPathsResult['paths'] = []
 
-  const { data } = await apolloClient.query({
+  const { data } = await apolloClient.query<GetGenericPagesQuery>({
     query: GET_GENERIC_PAGES_SLUG,
     variables: { first: 5 }
   })
 
   const pages = data?.genericPages
   if (pages) {
-    paths = pages.map(({ slug }: { slug: string }) => ({ params: { slug } }))
+    paths = pages.map(({ slug }) => ({ params: { slug } }))
   }
 
   return {
@@ -40,7 +42,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { data } = await apolloClient.query({
+  const { data } = await apolloClient.query<GetGenericPageBySlugQuery>({
     query: GET_GENERIC_PAGE_BY_SLUG,
     variables: { slug: params?.slug }
   })
