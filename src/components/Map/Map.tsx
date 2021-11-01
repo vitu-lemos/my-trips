@@ -1,17 +1,8 @@
+import { Places } from 'models/places'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-interface Place {
-  id: string
-  name: string
-  slug: string
-  location: {
-    latitude: number
-    longitude: number
-  }
-}
-
 interface Props {
-  places?: Place[]
+  places?: Places
 }
 
 const Map = ({ places }: Props) => (
@@ -31,15 +22,15 @@ const Map = ({ places }: Props) => (
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     {places?.map((place) => {
-      const { id, name, location } = place
+      const { slug, name, location } = place
       const { latitude, longitude } = location
       return (
         <Marker
-          key={`place-${id}`}
+          key={`place-${slug}`}
           position={[latitude, longitude]}
           title={name}
         >
-          <Popup>{`You are in ${name}`}</Popup>
+          <Popup>{`${name}`}</Popup>
         </Marker>
       )
     })}

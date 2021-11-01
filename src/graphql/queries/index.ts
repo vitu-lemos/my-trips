@@ -1,3 +1,4 @@
 import * as pages from './pages'
+import * as places from './places'
 
-export { pages }
+export { pages, places }
