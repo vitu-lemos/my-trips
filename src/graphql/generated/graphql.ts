@@ -2906,6 +2906,20 @@ export type GetPlacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetPlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', slug: string, name: string, location: { __typename?: 'Location', latitude: number, longitude: number }, gallery: Array<{ __typename?: 'Asset', id: string, url: string }> }> };
 
+export type GetPlaceBySlugQueryVariables = Exact<{
+  slug?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetPlaceBySlugQuery = { __typename?: 'Query', place?: { __typename?: 'Place', slug: string, name: string, description?: { __typename?: 'RichText', html: string } | null | undefined, gallery: Array<{ __typename?: 'Asset', url: string, id: string }> } | null | undefined };
+
+export type GetPlacesSlugQueryVariables = Exact<{
+  first: Scalars['Int'];
+}>;
+
+
+export type GetPlacesSlugQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', slug: string }> };
+
 
 export const GetGenericPagesDocument = gql`
     query GetGenericPages($first: Int) {
@@ -2990,7 +3004,7 @@ export const GetPlacesDocument = gql`
       latitude
       longitude
     }
-    gallery(first: 1) {
+    gallery(first: 3) {
       id
       url
     }
@@ -3024,3 +3038,81 @@ export function useGetPlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetPlacesQueryHookResult = ReturnType<typeof useGetPlacesQuery>;
 export type GetPlacesLazyQueryHookResult = ReturnType<typeof useGetPlacesLazyQuery>;
 export type GetPlacesQueryResult = Apollo.QueryResult<GetPlacesQuery, GetPlacesQueryVariables>;
+export const GetPlaceBySlugDocument = gql`
+    query GetPlaceBySlug($slug: String) {
+  place(where: {slug: $slug}) {
+    slug
+    name
+    description {
+      html
+    }
+    gallery {
+      url
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPlaceBySlugQuery__
+ *
+ * To run a query within a React component, call `useGetPlaceBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlaceBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlaceBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetPlaceBySlugQuery(baseOptions?: Apollo.QueryHookOptions<GetPlaceBySlugQuery, GetPlaceBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlaceBySlugQuery, GetPlaceBySlugQueryVariables>(GetPlaceBySlugDocument, options);
+      }
+export function useGetPlaceBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlaceBySlugQuery, GetPlaceBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlaceBySlugQuery, GetPlaceBySlugQueryVariables>(GetPlaceBySlugDocument, options);
+        }
+export type GetPlaceBySlugQueryHookResult = ReturnType<typeof useGetPlaceBySlugQuery>;
+export type GetPlaceBySlugLazyQueryHookResult = ReturnType<typeof useGetPlaceBySlugLazyQuery>;
+export type GetPlaceBySlugQueryResult = Apollo.QueryResult<GetPlaceBySlugQuery, GetPlaceBySlugQueryVariables>;
+export const GetPlacesSlugDocument = gql`
+    query GetPlacesSlug($first: Int!) {
+  places(first: $first) {
+    slug
+  }
+}
+    `;
+
+/**
+ * __useGetPlacesSlugQuery__
+ *
+ * To run a query within a React component, call `useGetPlacesSlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlacesSlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlacesSlugQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useGetPlacesSlugQuery(baseOptions: Apollo.QueryHookOptions<GetPlacesSlugQuery, GetPlacesSlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlacesSlugQuery, GetPlacesSlugQueryVariables>(GetPlacesSlugDocument, options);
+      }
+export function useGetPlacesSlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlacesSlugQuery, GetPlacesSlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlacesSlugQuery, GetPlacesSlugQueryVariables>(GetPlacesSlugDocument, options);
+        }
+export type GetPlacesSlugQueryHookResult = ReturnType<typeof useGetPlacesSlugQuery>;
+export type GetPlacesSlugLazyQueryHookResult = ReturnType<typeof useGetPlacesSlugLazyQuery>;
+export type GetPlacesSlugQueryResult = Apollo.QueryResult<GetPlacesSlugQuery, GetPlacesSlugQueryVariables>;
