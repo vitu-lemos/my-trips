@@ -10,19 +10,23 @@ import { Places } from 'models/places'
 
 import LinkWrapper from 'components/LinkWrapper'
 import Map from 'components/Map'
+import LoaderContainer from 'components/LoaderContainer'
 
 const HomeTemplate = () => {
   const [places, setPlaces] = useState<Places>()
+  const [loading, setLoading] = useState(false)
 
   const getPlaces = async () => {
+    setLoading(true)
     const { data } = await apolloClient.query<GetPlacesQuery>({
       query: GET_PLACES
     })
-
+    setLoading(false)
     if (data.places) {
       setPlaces(data.places)
     }
   }
+
   useEffect(() => {
     getPlaces()
   }, [])
@@ -32,7 +36,7 @@ const HomeTemplate = () => {
       <LinkWrapper href="about">
         <InfoOutline size={32} />
       </LinkWrapper>
-
+      <LoaderContainer loading={loading} />
       <Map places={places} />
     </>
   )
