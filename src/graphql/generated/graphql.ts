@@ -44,6 +44,7 @@ export type Asset = Node & {
   documentInStages: Array<Asset>;
   /** The file name */
   fileName: Scalars['String'];
+  galleryPlace: Array<Place>;
   /** The file handle */
   handle: Scalars['String'];
   /** The height of the file */
@@ -94,6 +95,19 @@ export type AssetDocumentInStagesArgs = {
   includeCurrent?: Scalars['Boolean'];
   inheritLocale?: Scalars['Boolean'];
   stages?: Array<Stage>;
+};
+
+
+/** Asset system model */
+export type AssetGalleryPlaceArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  locales?: Maybe<Array<Locale>>;
+  orderBy?: Maybe<PlaceOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<PlaceWhereInput>;
 };
 
 
@@ -161,6 +175,7 @@ export type AssetConnection = {
 export type AssetCreateInput = {
   createdAt?: Maybe<Scalars['DateTime']>;
   fileName: Scalars['String'];
+  galleryPlace?: Maybe<PlaceCreateManyInlineInput>;
   handle: Scalars['String'];
   height?: Maybe<Scalars['Float']>;
   /** Inline mutations for managing document localizations excluding the default locale */
@@ -242,6 +257,9 @@ export type AssetManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
   createdBy?: Maybe<UserWhereInput>;
+  galleryPlace_every?: Maybe<PlaceWhereInput>;
+  galleryPlace_none?: Maybe<PlaceWhereInput>;
+  galleryPlace_some?: Maybe<PlaceWhereInput>;
   id?: Maybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: Maybe<Scalars['ID']>;
@@ -328,6 +346,7 @@ export type AssetTransformationInput = {
 
 export type AssetUpdateInput = {
   fileName?: Maybe<Scalars['String']>;
+  galleryPlace?: Maybe<PlaceUpdateManyInlineInput>;
   handle?: Maybe<Scalars['String']>;
   height?: Maybe<Scalars['Float']>;
   /** Manage document localizations */
@@ -500,6 +519,9 @@ export type AssetWhereInput = {
   fileName_not_starts_with?: Maybe<Scalars['String']>;
   /** All values starting with the given string. */
   fileName_starts_with?: Maybe<Scalars['String']>;
+  galleryPlace_every?: Maybe<PlaceWhereInput>;
+  galleryPlace_none?: Maybe<PlaceWhereInput>;
+  galleryPlace_some?: Maybe<PlaceWhereInput>;
   handle?: Maybe<Scalars['String']>;
   /** All values containing the given string. */
   handle_contains?: Maybe<Scalars['String']>;
@@ -1238,8 +1260,8 @@ export type Mutation = {
   createAsset?: Maybe<Asset>;
   /** Create one genericPage */
   createGenericPage?: Maybe<GenericPage>;
-  /** Create one page */
-  createPage?: Maybe<Page>;
+  /** Create one place */
+  createPlace?: Maybe<Place>;
   /** Delete one asset from _all_ existing stages. Returns deleted document. */
   deleteAsset?: Maybe<Asset>;
   /** Delete one genericPage from _all_ existing stages. Returns deleted document. */
@@ -1259,14 +1281,14 @@ export type Mutation = {
   /** Delete many GenericPage documents, return deleted documents */
   deleteManyGenericPagesConnection: GenericPageConnection;
   /**
-   * Delete many Page documents
-   * @deprecated Please use the new paginated many mutation (deleteManyPagesConnection)
+   * Delete many Place documents
+   * @deprecated Please use the new paginated many mutation (deleteManyPlacesConnection)
    */
-  deleteManyPages: BatchPayload;
-  /** Delete many Page documents, return deleted documents */
-  deleteManyPagesConnection: PageConnection;
-  /** Delete one page from _all_ existing stages. Returns deleted document. */
-  deletePage?: Maybe<Page>;
+  deleteManyPlaces: BatchPayload;
+  /** Delete many Place documents, return deleted documents */
+  deleteManyPlacesConnection: PlaceConnection;
+  /** Delete one place from _all_ existing stages. Returns deleted document. */
+  deletePlace?: Maybe<Place>;
   /** Publish one asset */
   publishAsset?: Maybe<Asset>;
   /** Publish one genericPage */
@@ -1286,14 +1308,14 @@ export type Mutation = {
   /** Publish many GenericPage documents */
   publishManyGenericPagesConnection: GenericPageConnection;
   /**
-   * Publish many Page documents
-   * @deprecated Please use the new paginated many mutation (publishManyPagesConnection)
+   * Publish many Place documents
+   * @deprecated Please use the new paginated many mutation (publishManyPlacesConnection)
    */
-  publishManyPages: BatchPayload;
-  /** Publish many Page documents */
-  publishManyPagesConnection: PageConnection;
-  /** Publish one page */
-  publishPage?: Maybe<Page>;
+  publishManyPlaces: BatchPayload;
+  /** Publish many Place documents */
+  publishManyPlacesConnection: PlaceConnection;
+  /** Publish one place */
+  publishPlace?: Maybe<Place>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishAsset?: Maybe<Asset>;
   /** Unpublish one genericPage from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -1313,14 +1335,14 @@ export type Mutation = {
   /** Find many GenericPage documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyGenericPagesConnection: GenericPageConnection;
   /**
-   * Unpublish many Page documents
-   * @deprecated Please use the new paginated many mutation (unpublishManyPagesConnection)
+   * Unpublish many Place documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyPlacesConnection)
    */
-  unpublishManyPages: BatchPayload;
-  /** Find many Page documents that match criteria in specified stage and unpublish from target stages */
-  unpublishManyPagesConnection: PageConnection;
-  /** Unpublish one page from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
-  unpublishPage?: Maybe<Page>;
+  unpublishManyPlaces: BatchPayload;
+  /** Find many Place documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyPlacesConnection: PlaceConnection;
+  /** Unpublish one place from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishPlace?: Maybe<Place>;
   /** Update one asset */
   updateAsset?: Maybe<Asset>;
   /** Update one genericPage */
@@ -1340,20 +1362,20 @@ export type Mutation = {
   /** Update many GenericPage documents */
   updateManyGenericPagesConnection: GenericPageConnection;
   /**
-   * Update many pages
-   * @deprecated Please use the new paginated many mutation (updateManyPagesConnection)
+   * Update many places
+   * @deprecated Please use the new paginated many mutation (updateManyPlacesConnection)
    */
-  updateManyPages: BatchPayload;
-  /** Update many Page documents */
-  updateManyPagesConnection: PageConnection;
-  /** Update one page */
-  updatePage?: Maybe<Page>;
+  updateManyPlaces: BatchPayload;
+  /** Update many Place documents */
+  updateManyPlacesConnection: PlaceConnection;
+  /** Update one place */
+  updatePlace?: Maybe<Place>;
   /** Upsert one asset */
   upsertAsset?: Maybe<Asset>;
   /** Upsert one genericPage */
   upsertGenericPage?: Maybe<GenericPage>;
-  /** Upsert one page */
-  upsertPage?: Maybe<Page>;
+  /** Upsert one place */
+  upsertPlace?: Maybe<Place>;
 };
 
 
@@ -1367,8 +1389,8 @@ export type MutationCreateGenericPageArgs = {
 };
 
 
-export type MutationCreatePageArgs = {
-  data: PageCreateInput;
+export type MutationCreatePlaceArgs = {
+  data: PlaceCreateInput;
 };
 
 
@@ -1412,23 +1434,23 @@ export type MutationDeleteManyGenericPagesConnectionArgs = {
 };
 
 
-export type MutationDeleteManyPagesArgs = {
-  where?: Maybe<PageManyWhereInput>;
+export type MutationDeleteManyPlacesArgs = {
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationDeleteManyPagesConnectionArgs = {
+export type MutationDeleteManyPlacesConnectionArgs = {
   after?: Maybe<Scalars['ID']>;
   before?: Maybe<Scalars['ID']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationDeletePageArgs = {
-  where: PageWhereUniqueInput;
+export type MutationDeletePlaceArgs = {
+  where: PlaceWhereUniqueInput;
 };
 
 
@@ -1489,13 +1511,13 @@ export type MutationPublishManyGenericPagesConnectionArgs = {
 };
 
 
-export type MutationPublishManyPagesArgs = {
+export type MutationPublishManyPlacesArgs = {
   to?: Array<Stage>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationPublishManyPagesConnectionArgs = {
+export type MutationPublishManyPlacesConnectionArgs = {
   after?: Maybe<Scalars['ID']>;
   before?: Maybe<Scalars['ID']>;
   first?: Maybe<Scalars['Int']>;
@@ -1503,13 +1525,13 @@ export type MutationPublishManyPagesConnectionArgs = {
   last?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   to?: Array<Stage>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationPublishPageArgs = {
+export type MutationPublishPlaceArgs = {
   to?: Array<Stage>;
-  where: PageWhereUniqueInput;
+  where: PlaceWhereUniqueInput;
 };
 
 
@@ -1567,13 +1589,13 @@ export type MutationUnpublishManyGenericPagesConnectionArgs = {
 };
 
 
-export type MutationUnpublishManyPagesArgs = {
+export type MutationUnpublishManyPlacesArgs = {
   from?: Array<Stage>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationUnpublishManyPagesConnectionArgs = {
+export type MutationUnpublishManyPlacesConnectionArgs = {
   after?: Maybe<Scalars['ID']>;
   before?: Maybe<Scalars['ID']>;
   first?: Maybe<Scalars['Int']>;
@@ -1581,13 +1603,13 @@ export type MutationUnpublishManyPagesConnectionArgs = {
   last?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   stage?: Maybe<Stage>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationUnpublishPageArgs = {
+export type MutationUnpublishPlaceArgs = {
   from?: Array<Stage>;
-  where: PageWhereUniqueInput;
+  where: PlaceWhereUniqueInput;
 };
 
 
@@ -1637,26 +1659,26 @@ export type MutationUpdateManyGenericPagesConnectionArgs = {
 };
 
 
-export type MutationUpdateManyPagesArgs = {
-  data: PageUpdateManyInput;
-  where?: Maybe<PageManyWhereInput>;
+export type MutationUpdateManyPlacesArgs = {
+  data: PlaceUpdateManyInput;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationUpdateManyPagesConnectionArgs = {
+export type MutationUpdateManyPlacesConnectionArgs = {
   after?: Maybe<Scalars['ID']>;
   before?: Maybe<Scalars['ID']>;
-  data: PageUpdateManyInput;
+  data: PlaceUpdateManyInput;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
-  where?: Maybe<PageManyWhereInput>;
+  where?: Maybe<PlaceManyWhereInput>;
 };
 
 
-export type MutationUpdatePageArgs = {
-  data: PageUpdateInput;
-  where: PageWhereUniqueInput;
+export type MutationUpdatePlaceArgs = {
+  data: PlaceUpdateInput;
+  where: PlaceWhereUniqueInput;
 };
 
 
@@ -1672,9 +1694,9 @@ export type MutationUpsertGenericPageArgs = {
 };
 
 
-export type MutationUpsertPageArgs = {
-  upsert: PageUpsertInput;
-  where: PageWhereUniqueInput;
+export type MutationUpsertPlaceArgs = {
+  upsert: PlaceUpsertInput;
+  where: PlaceWhereUniqueInput;
 };
 
 /** An object with an ID */
@@ -1683,110 +1705,6 @@ export type Node = {
   id: Scalars['ID'];
   /** The Stage of an object */
   stage: Stage;
-};
-
-export type Page = Node & {
-  __typename?: 'Page';
-  body?: Maybe<RichText>;
-  /** The time the document was created */
-  createdAt: Scalars['DateTime'];
-  /** User that created this document */
-  createdBy?: Maybe<User>;
-  /** Get the document in other stages */
-  documentInStages: Array<Page>;
-  heading?: Maybe<Scalars['String']>;
-  /** List of Page versions */
-  history: Array<Version>;
-  /** The unique identifier */
-  id: Scalars['ID'];
-  /** The time the document was published. Null on documents in draft stage. */
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  /** User that last published this document */
-  publishedBy?: Maybe<User>;
-  slug: Scalars['String'];
-  /** System stage field */
-  stage: Stage;
-  /** The time the document was updated */
-  updatedAt: Scalars['DateTime'];
-  /** User that last updated this document */
-  updatedBy?: Maybe<User>;
-};
-
-
-export type PageCreatedByArgs = {
-  locales?: Maybe<Array<Locale>>;
-};
-
-
-export type PageDocumentInStagesArgs = {
-  includeCurrent?: Scalars['Boolean'];
-  inheritLocale?: Scalars['Boolean'];
-  stages?: Array<Stage>;
-};
-
-
-export type PageHistoryArgs = {
-  limit?: Scalars['Int'];
-  skip?: Scalars['Int'];
-  stageOverride?: Maybe<Stage>;
-};
-
-
-export type PagePublishedByArgs = {
-  locales?: Maybe<Array<Locale>>;
-};
-
-
-export type PageUpdatedByArgs = {
-  locales?: Maybe<Array<Locale>>;
-};
-
-export type PageConnectInput = {
-  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
-  position?: Maybe<ConnectPositionInput>;
-  /** Document to connect */
-  where: PageWhereUniqueInput;
-};
-
-/** A connection to a list of items. */
-export type PageConnection = {
-  __typename?: 'PageConnection';
-  aggregate: Aggregate;
-  /** A list of edges. */
-  edges: Array<PageEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-export type PageCreateInput = {
-  body?: Maybe<Scalars['RichTextAST']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  heading?: Maybe<Scalars['String']>;
-  slug: Scalars['String'];
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type PageCreateManyInlineInput = {
-  /** Connect multiple existing Page documents */
-  connect?: Maybe<Array<PageWhereUniqueInput>>;
-  /** Create and connect multiple existing Page documents */
-  create?: Maybe<Array<PageCreateInput>>;
-};
-
-export type PageCreateOneInlineInput = {
-  /** Connect one existing Page document */
-  connect?: Maybe<PageWhereUniqueInput>;
-  /** Create and connect one Page document */
-  create?: Maybe<PageCreateInput>;
-};
-
-/** An edge in a connection. */
-export type PageEdge = {
-  __typename?: 'PageEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node: Page;
 };
 
 /** Information about pagination in a connection. */
@@ -1804,14 +1722,141 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
 };
 
+/** Model to manager trip places */
+export type Place = Node & {
+  __typename?: 'Place';
+  /** The time the document was created */
+  createdAt: Scalars['DateTime'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  description?: Maybe<RichText>;
+  /** Get the document in other stages */
+  documentInStages: Array<Place>;
+  gallery: Array<Asset>;
+  /** List of Place versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID'];
+  location: Location;
+  name: Scalars['String'];
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  slug: Scalars['String'];
+  /** System stage field */
+  stage: Stage;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+};
+
+
+/** Model to manager trip places */
+export type PlaceCreatedByArgs = {
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+/** Model to manager trip places */
+export type PlaceDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean'];
+  inheritLocale?: Scalars['Boolean'];
+  stages?: Array<Stage>;
+};
+
+
+/** Model to manager trip places */
+export type PlaceGalleryArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  locales?: Maybe<Array<Locale>>;
+  orderBy?: Maybe<AssetOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<AssetWhereInput>;
+};
+
+
+/** Model to manager trip places */
+export type PlaceHistoryArgs = {
+  limit?: Scalars['Int'];
+  skip?: Scalars['Int'];
+  stageOverride?: Maybe<Stage>;
+};
+
+
+/** Model to manager trip places */
+export type PlacePublishedByArgs = {
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+/** Model to manager trip places */
+export type PlaceUpdatedByArgs = {
+  locales?: Maybe<Array<Locale>>;
+};
+
+export type PlaceConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: Maybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: PlaceWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type PlaceConnection = {
+  __typename?: 'PlaceConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<PlaceEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type PlaceCreateInput = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['RichTextAST']>;
+  gallery: AssetCreateManyInlineInput;
+  location: LocationInput;
+  name: Scalars['String'];
+  slug: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PlaceCreateManyInlineInput = {
+  /** Connect multiple existing Place documents */
+  connect?: Maybe<Array<PlaceWhereUniqueInput>>;
+  /** Create and connect multiple existing Place documents */
+  create?: Maybe<Array<PlaceCreateInput>>;
+};
+
+export type PlaceCreateOneInlineInput = {
+  /** Connect one existing Place document */
+  connect?: Maybe<PlaceWhereUniqueInput>;
+  /** Create and connect one Place document */
+  create?: Maybe<PlaceCreateInput>;
+};
+
+/** An edge in a connection. */
+export type PlaceEdge = {
+  __typename?: 'PlaceEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Place;
+};
+
 /** Identifies documents */
-export type PageManyWhereInput = {
+export type PlaceManyWhereInput = {
   /** Logical AND on all given filters. */
-  AND?: Maybe<Array<PageWhereInput>>;
+  AND?: Maybe<Array<PlaceWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
-  NOT?: Maybe<Array<PageWhereInput>>;
+  NOT?: Maybe<Array<PlaceWhereInput>>;
   /** Logical OR on all given filters. */
-  OR?: Maybe<Array<PageWhereInput>>;
+  OR?: Maybe<Array<PlaceWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1830,25 +1875,9 @@ export type PageManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
   createdBy?: Maybe<UserWhereInput>;
-  heading?: Maybe<Scalars['String']>;
-  /** All values containing the given string. */
-  heading_contains?: Maybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  heading_ends_with?: Maybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  heading_in?: Maybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  heading_not?: Maybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  heading_not_contains?: Maybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  heading_not_ends_with?: Maybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  heading_not_in?: Maybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  heading_not_starts_with?: Maybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  heading_starts_with?: Maybe<Scalars['String']>;
+  gallery_every?: Maybe<AssetWhereInput>;
+  gallery_none?: Maybe<AssetWhereInput>;
+  gallery_some?: Maybe<AssetWhereInput>;
   id?: Maybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: Maybe<Scalars['ID']>;
@@ -1868,6 +1897,25 @@ export type PageManyWhereInput = {
   id_not_starts_with?: Maybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  /** All values containing the given string. */
+  name_contains?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  name_ends_with?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  name_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  name_not?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  name_not_contains?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  name_starts_with?: Maybe<Scalars['String']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: Maybe<Scalars['DateTime']>;
@@ -1921,13 +1969,13 @@ export type PageManyWhereInput = {
   updatedBy?: Maybe<UserWhereInput>;
 };
 
-export enum PageOrderByInput {
+export enum PlaceOrderByInput {
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
-  HeadingAsc = 'heading_ASC',
-  HeadingDesc = 'heading_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  NameAsc = 'name_ASC',
+  NameDesc = 'name_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   SlugAsc = 'slug_ASC',
@@ -1936,85 +1984,87 @@ export enum PageOrderByInput {
   UpdatedAtDesc = 'updatedAt_DESC'
 }
 
-export type PageUpdateInput = {
-  body?: Maybe<Scalars['RichTextAST']>;
-  heading?: Maybe<Scalars['String']>;
+export type PlaceUpdateInput = {
+  description?: Maybe<Scalars['RichTextAST']>;
+  gallery?: Maybe<AssetUpdateManyInlineInput>;
+  location?: Maybe<LocationInput>;
+  name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
 };
 
-export type PageUpdateManyInlineInput = {
-  /** Connect multiple existing Page documents */
-  connect?: Maybe<Array<PageConnectInput>>;
-  /** Create and connect multiple Page documents */
-  create?: Maybe<Array<PageCreateInput>>;
-  /** Delete multiple Page documents */
-  delete?: Maybe<Array<PageWhereUniqueInput>>;
-  /** Disconnect multiple Page documents */
-  disconnect?: Maybe<Array<PageWhereUniqueInput>>;
-  /** Override currently-connected documents with multiple existing Page documents */
-  set?: Maybe<Array<PageWhereUniqueInput>>;
-  /** Update multiple Page documents */
-  update?: Maybe<Array<PageUpdateWithNestedWhereUniqueInput>>;
-  /** Upsert multiple Page documents */
-  upsert?: Maybe<Array<PageUpsertWithNestedWhereUniqueInput>>;
+export type PlaceUpdateManyInlineInput = {
+  /** Connect multiple existing Place documents */
+  connect?: Maybe<Array<PlaceConnectInput>>;
+  /** Create and connect multiple Place documents */
+  create?: Maybe<Array<PlaceCreateInput>>;
+  /** Delete multiple Place documents */
+  delete?: Maybe<Array<PlaceWhereUniqueInput>>;
+  /** Disconnect multiple Place documents */
+  disconnect?: Maybe<Array<PlaceWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing Place documents */
+  set?: Maybe<Array<PlaceWhereUniqueInput>>;
+  /** Update multiple Place documents */
+  update?: Maybe<Array<PlaceUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Place documents */
+  upsert?: Maybe<Array<PlaceUpsertWithNestedWhereUniqueInput>>;
 };
 
-export type PageUpdateManyInput = {
-  body?: Maybe<Scalars['RichTextAST']>;
-  heading?: Maybe<Scalars['String']>;
+export type PlaceUpdateManyInput = {
+  description?: Maybe<Scalars['RichTextAST']>;
+  name?: Maybe<Scalars['String']>;
 };
 
-export type PageUpdateManyWithNestedWhereInput = {
+export type PlaceUpdateManyWithNestedWhereInput = {
   /** Update many input */
-  data: PageUpdateManyInput;
+  data: PlaceUpdateManyInput;
   /** Document search */
-  where: PageWhereInput;
+  where: PlaceWhereInput;
 };
 
-export type PageUpdateOneInlineInput = {
-  /** Connect existing Page document */
-  connect?: Maybe<PageWhereUniqueInput>;
-  /** Create and connect one Page document */
-  create?: Maybe<PageCreateInput>;
-  /** Delete currently connected Page document */
+export type PlaceUpdateOneInlineInput = {
+  /** Connect existing Place document */
+  connect?: Maybe<PlaceWhereUniqueInput>;
+  /** Create and connect one Place document */
+  create?: Maybe<PlaceCreateInput>;
+  /** Delete currently connected Place document */
   delete?: Maybe<Scalars['Boolean']>;
-  /** Disconnect currently connected Page document */
+  /** Disconnect currently connected Place document */
   disconnect?: Maybe<Scalars['Boolean']>;
-  /** Update single Page document */
-  update?: Maybe<PageUpdateWithNestedWhereUniqueInput>;
-  /** Upsert single Page document */
-  upsert?: Maybe<PageUpsertWithNestedWhereUniqueInput>;
+  /** Update single Place document */
+  update?: Maybe<PlaceUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Place document */
+  upsert?: Maybe<PlaceUpsertWithNestedWhereUniqueInput>;
 };
 
-export type PageUpdateWithNestedWhereUniqueInput = {
+export type PlaceUpdateWithNestedWhereUniqueInput = {
   /** Document to update */
-  data: PageUpdateInput;
+  data: PlaceUpdateInput;
   /** Unique document search */
-  where: PageWhereUniqueInput;
+  where: PlaceWhereUniqueInput;
 };
 
-export type PageUpsertInput = {
+export type PlaceUpsertInput = {
   /** Create document if it didn't exist */
-  create: PageCreateInput;
+  create: PlaceCreateInput;
   /** Update document if it exists */
-  update: PageUpdateInput;
+  update: PlaceUpdateInput;
 };
 
-export type PageUpsertWithNestedWhereUniqueInput = {
+export type PlaceUpsertWithNestedWhereUniqueInput = {
   /** Upsert data */
-  data: PageUpsertInput;
+  data: PlaceUpsertInput;
   /** Unique document search */
-  where: PageWhereUniqueInput;
+  where: PlaceWhereUniqueInput;
 };
 
 /** Identifies documents */
-export type PageWhereInput = {
+export type PlaceWhereInput = {
   /** Logical AND on all given filters. */
-  AND?: Maybe<Array<PageWhereInput>>;
+  AND?: Maybe<Array<PlaceWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
-  NOT?: Maybe<Array<PageWhereInput>>;
+  NOT?: Maybe<Array<PlaceWhereInput>>;
   /** Logical OR on all given filters. */
-  OR?: Maybe<Array<PageWhereInput>>;
+  OR?: Maybe<Array<PlaceWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -2033,25 +2083,9 @@ export type PageWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>;
   createdBy?: Maybe<UserWhereInput>;
-  heading?: Maybe<Scalars['String']>;
-  /** All values containing the given string. */
-  heading_contains?: Maybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  heading_ends_with?: Maybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  heading_in?: Maybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  heading_not?: Maybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  heading_not_contains?: Maybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  heading_not_ends_with?: Maybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  heading_not_in?: Maybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  heading_not_starts_with?: Maybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  heading_starts_with?: Maybe<Scalars['String']>;
+  gallery_every?: Maybe<AssetWhereInput>;
+  gallery_none?: Maybe<AssetWhereInput>;
+  gallery_some?: Maybe<AssetWhereInput>;
   id?: Maybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: Maybe<Scalars['ID']>;
@@ -2071,6 +2105,25 @@ export type PageWhereInput = {
   id_not_starts_with?: Maybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  /** All values containing the given string. */
+  name_contains?: Maybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  name_ends_with?: Maybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  name_in?: Maybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  name_not?: Maybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  name_not_contains?: Maybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  name_starts_with?: Maybe<Scalars['String']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: Maybe<Scalars['DateTime']>;
@@ -2124,8 +2177,8 @@ export type PageWhereInput = {
   updatedBy?: Maybe<UserWhereInput>;
 };
 
-/** References Page record uniquely */
-export type PageWhereUniqueInput = {
+/** References Place record uniquely */
+export type PlaceWhereUniqueInput = {
   id?: Maybe<Scalars['ID']>;
   slug?: Maybe<Scalars['String']>;
 };
@@ -2157,14 +2210,14 @@ export type Query = {
   genericPagesConnection: GenericPageConnection;
   /** Fetches an object given its ID */
   node?: Maybe<Node>;
-  /** Retrieve a single page */
-  page?: Maybe<Page>;
+  /** Retrieve a single place */
+  place?: Maybe<Place>;
   /** Retrieve document version */
-  pageVersion?: Maybe<DocumentVersion>;
-  /** Retrieve multiple pages */
-  pages: Array<Page>;
-  /** Retrieve multiple pages using the Relay connection interface */
-  pagesConnection: PageConnection;
+  placeVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple places */
+  places: Array<Place>;
+  /** Retrieve multiple places using the Relay connection interface */
+  placesConnection: PlaceConnection;
   /** Retrieve a single user */
   user?: Maybe<User>;
   /** Retrieve multiple users */
@@ -2257,41 +2310,41 @@ export type QueryNodeArgs = {
 };
 
 
-export type QueryPageArgs = {
+export type QueryPlaceArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
-  where: PageWhereUniqueInput;
+  where: PlaceWhereUniqueInput;
 };
 
 
-export type QueryPageVersionArgs = {
+export type QueryPlaceVersionArgs = {
   where: VersionWhereInput;
 };
 
 
-export type QueryPagesArgs = {
+export type QueryPlacesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   locales?: Array<Locale>;
-  orderBy?: Maybe<PageOrderByInput>;
+  orderBy?: Maybe<PlaceOrderByInput>;
   skip?: Maybe<Scalars['Int']>;
   stage?: Stage;
-  where?: Maybe<PageWhereInput>;
+  where?: Maybe<PlaceWhereInput>;
 };
 
 
-export type QueryPagesConnectionArgs = {
+export type QueryPlacesConnectionArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   locales?: Array<Locale>;
-  orderBy?: Maybe<PageOrderByInput>;
+  orderBy?: Maybe<PlaceOrderByInput>;
   skip?: Maybe<Scalars['Int']>;
   stage?: Stage;
-  where?: Maybe<PageWhereInput>;
+  where?: Maybe<PlaceWhereInput>;
 };
 
 
@@ -2848,6 +2901,11 @@ export type GetGenericPageBySlugQueryVariables = Exact<{
 
 export type GetGenericPageBySlugQuery = { __typename?: 'Query', genericPage?: { __typename?: 'GenericPage', slug: string, title: string, description: { __typename?: 'RichText', html: string } } | null | undefined };
 
+export type GetPlacesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPlacesQuery = { __typename?: 'Query', places: Array<{ __typename?: 'Place', slug: string, name: string, location: { __typename?: 'Location', latitude: number, longitude: number }, gallery: Array<{ __typename?: 'Asset', id: string, url: string }> }> };
+
 
 export const GetGenericPagesDocument = gql`
     query GetGenericPages($first: Int) {
@@ -2923,3 +2981,46 @@ export function useGetGenericPageBySlugLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type GetGenericPageBySlugQueryHookResult = ReturnType<typeof useGetGenericPageBySlugQuery>;
 export type GetGenericPageBySlugLazyQueryHookResult = ReturnType<typeof useGetGenericPageBySlugLazyQuery>;
 export type GetGenericPageBySlugQueryResult = Apollo.QueryResult<GetGenericPageBySlugQuery, GetGenericPageBySlugQueryVariables>;
+export const GetPlacesDocument = gql`
+    query GetPlaces {
+  places {
+    slug
+    name
+    location {
+      latitude
+      longitude
+    }
+    gallery(first: 1) {
+      id
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPlacesQuery__
+ *
+ * To run a query within a React component, call `useGetPlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlacesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPlacesQuery(baseOptions?: Apollo.QueryHookOptions<GetPlacesQuery, GetPlacesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlacesQuery, GetPlacesQueryVariables>(GetPlacesDocument, options);
+      }
+export function useGetPlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlacesQuery, GetPlacesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlacesQuery, GetPlacesQueryVariables>(GetPlacesDocument, options);
+        }
+export type GetPlacesQueryHookResult = ReturnType<typeof useGetPlacesQuery>;
+export type GetPlacesLazyQueryHookResult = ReturnType<typeof useGetPlacesLazyQuery>;
+export type GetPlacesQueryResult = Apollo.QueryResult<GetPlacesQuery, GetPlacesQueryVariables>;
