@@ -9,10 +9,34 @@ export const GET_PLACES = gql`
         latitude
         longitude
       }
-      gallery(first: 1) {
+      gallery(first: 3) {
         id
         url
       }
+    }
+  }
+`
+
+export const GET_PLACE_BY_SLUG = gql`
+  query GetPlaceBySlug($slug: String) {
+    place(where: { slug: $slug }) {
+      slug
+      name
+      description {
+        html
+      }
+      gallery {
+        url
+        id
+      }
+    }
+  }
+`
+
+export const GET_PLACES_SLUG = gql`
+  query GetPlacesSlug($first: Int!) {
+    places(first: $first) {
+      slug
     }
   }
 `
