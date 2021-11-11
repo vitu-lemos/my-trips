@@ -1,10 +1,7 @@
 {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    "cSpell.words": [
-      "prefetch"
-    ]
-  }
-  
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "cSpell.words": ["MAPBOX", "prefetch"]
+}

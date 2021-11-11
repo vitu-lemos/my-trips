@@ -1,6 +1,8 @@
 import { Places } from 'models/places'
 import { useRouter } from 'next/router'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, Marker, Popup } from 'react-leaflet'
+
+import CustomTileLayer from './CustomTileLayer'
 
 interface Props {
   places?: Places
@@ -24,10 +26,7 @@ const Map = ({ places }: Props) => {
         [180, -180]
       ]}
     >
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <CustomTileLayer />
       {places?.map((place) => {
         const { slug, name, location } = place
         const { latitude, longitude } = location
