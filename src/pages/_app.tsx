@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
+import NextNProgress from 'nextjs-progressbar'
 
 import apolloClient from 'graphql/apollo/client'
 
@@ -27,6 +28,7 @@ function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyles />
+      <NextNProgress color="#e20e8d" />
       <ApolloProvider client={apolloClient}>
         <Component {...pageProps} />
       </ApolloProvider>

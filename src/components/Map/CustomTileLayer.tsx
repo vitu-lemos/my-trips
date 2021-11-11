@@ -5,7 +5,10 @@ const CustomTileLayer = () => {
   const MAPBOX_USER_ID = process.env.NEXT_PUBLIC_MAPBOX_USER_ID
   const MAPBOX_STYLE_ID = process.env.NEXT_PUBLIC_MAPBOX_STYLE_ID
 
-  return MAPBOX_API_KEY ? (
+  const mapBoxIsAvailable =
+    !!MAPBOX_API_KEY && MAPBOX_USER_ID && MAPBOX_STYLE_ID
+
+  return mapBoxIsAvailable ? (
     <TileLayer
       attribution='© <a target="_blank" href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       url={`https://api.mapbox.com/styles/v1/${MAPBOX_USER_ID}/${MAPBOX_STYLE_ID}/tiles/512/{z}/{x}/{y}@2x?access_token=${MAPBOX_API_KEY}`}
