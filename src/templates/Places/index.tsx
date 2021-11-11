@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { CloseOutline } from '@styled-icons/evaicons-outline'
+import { NextSeo } from 'next-seo'
 
 import { Place } from 'models/places'
 
@@ -8,11 +9,12 @@ import LinkWrapper from 'components/LinkWrapper'
 import LoaderContainer from 'components/LoaderContainer'
 
 import * as S from './styles'
+import { createSeoConfig } from './seo'
 
-interface Props {
+export interface PlaceTemplateProps {
   place: Place
 }
-const PlacesTemplate = ({ place }: Props) => {
+const PlacesTemplate = ({ place }: PlaceTemplateProps) => {
   const router = useRouter()
 
   if (router.isFallback) {
@@ -20,6 +22,7 @@ const PlacesTemplate = ({ place }: Props) => {
   }
   return (
     <>
+      <NextSeo {...createSeoConfig({ place })} />
       <LinkWrapper href="/">
         <CloseOutline size={32} />
       </LinkWrapper>

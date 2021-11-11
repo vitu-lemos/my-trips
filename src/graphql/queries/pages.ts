@@ -15,6 +15,7 @@ export const GET_GENERIC_PAGE_BY_SLUG = gql`
       title
       description {
         html
+        text
       }
     }
   }

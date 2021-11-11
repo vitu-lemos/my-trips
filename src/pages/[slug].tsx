@@ -14,12 +14,12 @@ import {
 
 import GenericTemplate, { GenericPageProps } from 'templates/Generic'
 
-const GenericPage = ({ title, description }: GenericPageProps) => {
+const GenericPage = ({ genericPage }: GenericPageProps) => {
   const router = useRouter()
   if (router.isFallback) {
     return <p>Loading...</p>
   }
-  return <GenericTemplate title={title} description={description} />
+  return <GenericTemplate genericPage={genericPage} />
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -52,8 +52,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      title: genericPage.title,
-      description: genericPage.description.html
+      genericPage
     },
     revalidate: 60
   }

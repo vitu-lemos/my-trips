@@ -24,10 +24,13 @@ export const GET_PLACE_BY_SLUG = gql`
       name
       description {
         html
+        text
       }
       gallery {
         url
         id
+        width
+        height
       }
     }
   }
