@@ -11,7 +11,7 @@ const CustomTileLayer = () => {
   return mapBoxIsAvailable ? (
     <TileLayer
       attribution='© <a target="_blank" href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      url={`https://api.mapbox.com/styles/v1/${MAPBOX_USER_ID}/${MAPBOX_STYLE_ID}/tiles/512/{z}/{x}/{y}@2x?access_token=${MAPBOX_API_KEY}`}
+      url={`https://api.mapbox.com/styles/v1/${MAPBOX_USER_ID}/${MAPBOX_STYLE_ID}/tiles/512/{z}/{x}/{y}?access_token=${MAPBOX_API_KEY}`}
     />
   ) : (
     <TileLayer
